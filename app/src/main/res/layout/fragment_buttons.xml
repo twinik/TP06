@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Constraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".fragments.ButtonsFragment">
+
+    <ImageButton
+        android:id="@+id/imgbtnOnOff"
+        android:layout_width="134dp"
+        android:layout_height="144dp"
+        android:layout_marginStart="48dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        android:src="@drawable/buttonoff"
+        app:layout_constraintBottom_toTopOf="@+id/imgbtnLlamada"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.491" />
+
+    <ImageView
+        android:id="@+id/imgLampara"
+        android:layout_width="135dp"
+        android:layout_height="218dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="48dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lightoff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgbtnLlamada"
+        android:layout_width="146dp"
+        android:layout_height="184dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        android:src="@drawable/redbutton"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeteos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLampara" />
+
+    <Button
+        android:id="@+id/btnSeteos"
+        android:layout_width="390dp"
+        android:layout_height="63dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="16dp"
+        android:text="Seteos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNumeroTelefonico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgbtnLlamada"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgbtnLlamada" />
+</androidx.constraintlayout.widget.ConstraintLayout>
