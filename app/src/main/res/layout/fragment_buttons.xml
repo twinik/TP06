@@ -24,7 +24,7 @@
         android:id="@+id/imgLampara"
         android:layout_width="135dp"
         android:layout_height="218dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/lightoff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
