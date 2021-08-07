@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -36,9 +38,14 @@ public class ButtonsFragment extends Fragment {
     TextView tvNumeroTelefonico;
     MainActivity actividadContenedora;
     String phonenumber;
+    PackageManager  pm;
+    private CameraManager manager;
+    boolean compatible;
+    boolean prendida;
 
     public ButtonsFragment() {
-        // Required empty public constructor
+        compatible = false;
+        prendida = false;
     }
 
     @Override
@@ -55,6 +62,18 @@ public class ButtonsFragment extends Fragment {
         ObtenerReferencias();
         SetearListeners();
         tvNumeroTelefonico.setText(phonenumber);
+
+        pm  =  getActivity().getPackageManager();
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,}, 1000);
+        } else {
+            if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+                compatible = true;
+            }
+        }
+
+        manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+
         return layoutRoot;
     }
 
@@ -75,7 +94,27 @@ public class ButtonsFragment extends Fragment {
     View.OnClickListener btnOnOff_Click = new View.OnClickListener() {
         @Override
         public void onClick(View V) {
-
+            if (compatible){
+                if(!prendida){
+                    try {
+                        manager.setTorchMode("0", true);
+                        imgbtnOnOff.setImageResource(R.drawable.buttonon);
+                        imgLampara.setImageResource(R.drawable.lighton);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    } prendida=true;
+                }
+                else {
+                    try {
+                        manager.setTorchMode("0", false);
+                        imgbtnOnOff.setImageResource(R.drawable.buttonoff);
+                        imgLampara.setImageResource(R.drawable.lightoff);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                    prendida=false;
+                }
+            }
         }
     };
 

@@ -12,37 +12,23 @@
         android:id="@+id/imgbtnOnOff"
         android:layout_width="134dp"
         android:layout_height="144dp"
-        android:layout_marginStart="48dp"
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         android:src="@drawable/buttonoff"
         app:layout_constraintBottom_toTopOf="@+id/imgbtnLlamada"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.491" />
+        app:layout_constraintTop_toBottomOf="@+id/imgLampara" />
 
     <ImageView
         android:id="@+id/imgLampara"
         android:layout_width="135dp"
         android:layout_height="218dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="48dp"
         android:scaleType="fitCenter"
         android:src="@drawable/lightoff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imgbtnLlamada"
-        android:layout_width="146dp"
-        android:layout_height="184dp"
-        android:background="#00FFFFFF"
-        android:scaleType="fitCenter"
-        android:src="@drawable/redbutton"
-        app:layout_constraintBottom_toTopOf="@+id/btnSeteos"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLampara" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSeteos"
@@ -56,15 +42,27 @@
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageButton
+        android:id="@+id/imgbtnLlamada"
+        android:layout_width="146dp"
+        android:layout_height="184dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        android:src="@drawable/buttonred"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeteos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/tvNumeroTelefonico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="72dp"
+        android:text="NumTel"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgbtnLlamada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgbtnLlamada" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
