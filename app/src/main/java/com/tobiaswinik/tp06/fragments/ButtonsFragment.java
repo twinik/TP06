@@ -57,23 +57,19 @@ public class ButtonsFragment extends Fragment {
         }
 
         actividadContenedora = (MainActivity) getActivity();
-        phonenumber = actividadContenedora.getTelefono();
+        if (actividadContenedora!=null){
+            phonenumber = actividadContenedora.getTelefono();
+        }
 
         ObtenerReferencias();
         SetearListeners();
         tvNumeroTelefonico.setText(phonenumber);
 
         pm  =  getActivity().getPackageManager();
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,}, 1000);
-        } else {
-            if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
-                manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-                compatible = true;
-            }
+        if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+            compatible = true;
         }
-
-
 
         return layoutRoot;
     }
@@ -118,7 +114,7 @@ public class ButtonsFragment extends Fragment {
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Error");
-                builder.setMessage("El flash no es compatible en este dispositivo");
+                builder.setMessage("Flash no compatible");
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
