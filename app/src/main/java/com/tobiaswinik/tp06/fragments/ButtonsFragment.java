@@ -68,11 +68,12 @@ public class ButtonsFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,}, 1000);
         } else {
             if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)){
+                manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
                 compatible = true;
             }
         }
 
-        manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+
 
         return layoutRoot;
     }
@@ -114,6 +115,19 @@ public class ButtonsFragment extends Fragment {
                     }
                     prendida=false;
                 }
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Error");
+                builder.setMessage("El flash no es compatible en este dispositivo");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         }
     };
