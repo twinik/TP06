@@ -16,15 +16,21 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tobiaswinik.tp06.MainActivity;
 import com.tobiaswinik.tp06.R;
@@ -35,17 +41,19 @@ public class ButtonsFragment extends Fragment {
     ImageButton imgbtnOnOff, imgbtnLlamada;
     ImageView imgLampara;
     Button btnSeteos;
+    CheckBox checkParpadeo;
     TextView tvNumeroTelefonico;
     MainActivity actividadContenedora;
     String phonenumber;
     PackageManager  pm;
     private CameraManager manager;
-    boolean compatible;
-    boolean prendida;
+    boolean compatible, prendida, btnState, parpadeo;
+    CountDownTimer contador;
 
     public ButtonsFragment() {
         compatible = false;
         prendida = false;
+        btnState = false;
     }
 
     @Override
@@ -79,6 +87,7 @@ public class ButtonsFragment extends Fragment {
         imgbtnLlamada = (ImageButton) layoutRoot.findViewById(R.id.imgbtnLlamada);
         imgLampara = (ImageView) layoutRoot.findViewById(R.id.imgLampara);
         btnSeteos = (Button) layoutRoot.findViewById(R.id.btnSeteos);
+        checkParpadeo = (CheckBox) layoutRoot.findViewById(R.id.checkParpadeo);
         tvNumeroTelefonico = (TextView) layoutRoot.findViewById(R.id.tvNumeroTelefonico);
     }
 
@@ -91,15 +100,10 @@ public class ButtonsFragment extends Fragment {
     View.OnClickListener btnOnOff_Click = new View.OnClickListener() {
         @Override
         public void onClick(View V) {
+            btnState = !btnState;
             if (compatible){
                 if(!prendida){
-                    try {
-                        manager.setTorchMode("0", true);
-                        imgbtnOnOff.setImageResource(R.drawable.buttonon);
-                        imgLampara.setImageResource(R.drawable.lighton);
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    } prendida=true;
+                    prenderLinterna();
                 }
                 else {
                     try {
@@ -147,4 +151,30 @@ public class ButtonsFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phonenumber));
         startActivity(intent);
     }
-}
+
+    public void prenderLinterna () {
+        if (!checkParpadeo.isChecked()){
+            try {
+                manager.setTorchMode("0", true);
+                imgbtnOnOff.setImageResource(R.drawable.buttonon);
+                imgLampara.setImageResource(R.drawable.lighton);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } prendida=true;
+        }else{
+            contador = new CountDownTimer(1000, 0) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+
+                }
+            };
+          } prendida=true;
+        }
+    }
+
