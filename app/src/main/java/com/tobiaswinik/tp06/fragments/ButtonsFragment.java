@@ -69,8 +69,6 @@ public class ButtonsFragment extends Fragment {
             phonenumber = actividadContenedora.getTelefono();
         }
 
-        ObtenerReferencias();
-        SetearListeners();
         tvNumeroTelefonico.setText(phonenumber);
 
         pm  =  getActivity().getPackageManager();
@@ -78,6 +76,9 @@ public class ButtonsFragment extends Fragment {
             manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
             compatible = true;
         }
+
+        ObtenerReferencias();
+        SetearListeners();
 
         return layoutRoot;
     }
@@ -106,28 +107,10 @@ public class ButtonsFragment extends Fragment {
                     prenderLinterna();
                 }
                 else {
-                    try {
-                        manager.setTorchMode("0", false);
-                        imgbtnOnOff.setImageResource(R.drawable.buttonoff);
-                        imgLampara.setImageResource(R.drawable.lightoff);
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-                    prendida=false;
+                    apagarLinterna();
                 }
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Error");
-                builder.setMessage("Flash no compatible");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+               alert();
             }
         }
     };
@@ -162,7 +145,7 @@ public class ButtonsFragment extends Fragment {
                 e.printStackTrace();
             } prendida=true;
         }else{
-            contador = new CountDownTimer(1000, 0) {
+            contador = new CountDownTimer(1000000000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -171,10 +154,35 @@ public class ButtonsFragment extends Fragment {
                 @Override
                 public void onFinish() {
 
-
                 }
             };
           } prendida=true;
+        }
+
+        public void apagarLinterna () {
+            try {
+                manager.setTorchMode("0", false);
+                imgbtnOnOff.setImageResource(R.drawable.buttonoff);
+                imgLampara.setImageResource(R.drawable.lightoff);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            prendida=false;
+        }
+
+        public void alert() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Error");
+            builder.setMessage("Flash no compatible");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 
