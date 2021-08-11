@@ -35,6 +35,9 @@ import android.widget.Toast;
 import com.tobiaswinik.tp06.MainActivity;
 import com.tobiaswinik.tp06.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ButtonsFragment extends Fragment {
 
     View layoutRoot;
@@ -49,11 +52,14 @@ public class ButtonsFragment extends Fragment {
     private CameraManager manager;
     boolean compatible, prendida, btnState, parpadeo;
     CountDownTimer contador;
+    Timer timer;
 
     public ButtonsFragment() {
         compatible = false;
         prendida = false;
         btnState = false;
+        parpadeo = false;
+        timer=new Timer();
     }
 
     @Override
@@ -63,6 +69,8 @@ public class ButtonsFragment extends Fragment {
         if (layoutRoot == null){
             layoutRoot = inflater.inflate(R.layout.fragment_buttons, container, false);
         }
+
+        ObtenerReferencias();
 
         actividadContenedora = (MainActivity) getActivity();
         if (actividadContenedora!=null){
@@ -76,8 +84,6 @@ public class ButtonsFragment extends Fragment {
             manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
             compatible = true;
         }
-
-        ObtenerReferencias();
         SetearListeners();
 
         return layoutRoot;
@@ -103,12 +109,7 @@ public class ButtonsFragment extends Fragment {
         public void onClick(View V) {
             btnState = !btnState;
             if (compatible){
-                if(!prendida){
-                    prenderLinterna();
-                }
-                else {
-                    apagarLinterna();
-                }
+               handleSwitch();
             } else {
                alert();
             }
@@ -135,8 +136,38 @@ public class ButtonsFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void prenderLinterna () {
-        if (!checkParpadeo.isChecked()){
+    public void handleSwitch () {
+        if(!prendida){
+            if (!checkParpadeo.isChecked()){
+                prenderLinterna();
+            } else{
+                parpadeo = true;
+                TimerTask Switch= new TimerTask() {
+                    @Override
+                    public void run() {
+                        if(prendida) {
+                            apagarLinterna();
+                        } else {
+                            prenderLinterna();
+                        }
+                    }
+                };
+                timer.schedule(Switch,0,1000);
+            }
+        }
+        else {
+            if (parpadeo){
+                parpadeo = false;
+                apagarLinterna();
+            }
+            else {
+                timer.cancel();
+                timer = new Timer();
+            }
+        }
+        }
+
+        public void prenderLinterna(){
             try {
                 manager.setTorchMode("0", true);
                 imgbtnOnOff.setImageResource(R.drawable.buttonon);
@@ -144,19 +175,6 @@ public class ButtonsFragment extends Fragment {
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             } prendida=true;
-        }else{
-            contador = new CountDownTimer(1000000000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                }
-            };
-          } prendida=true;
         }
 
         public void apagarLinterna () {
