@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getTelefono(){
-        String numero = preferences.getString("NumeroTelefono", "1198765432");
+        String numero = preferences.getString("NumeroTelefono", "911");
         return numero;
     }
 

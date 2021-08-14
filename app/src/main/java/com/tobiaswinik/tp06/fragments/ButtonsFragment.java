@@ -50,7 +50,7 @@ public class ButtonsFragment extends Fragment {
     String phonenumber;
     PackageManager  pm;
     private CameraManager manager;
-    boolean compatible, prendida, btnState, parpadeo;
+    boolean compatible, prendida, btnState, parpadeando;
     CountDownTimer contador;
     Timer timer;
 
@@ -58,7 +58,7 @@ public class ButtonsFragment extends Fragment {
         compatible = false;
         prendida = false;
         btnState = false;
-        parpadeo = false;
+        parpadeando = false;
         timer=new Timer();
     }
 
@@ -107,7 +107,6 @@ public class ButtonsFragment extends Fragment {
     View.OnClickListener btnOnOff_Click = new View.OnClickListener() {
         @Override
         public void onClick(View V) {
-            btnState = !btnState;
             if (compatible){
                handleSwitch();
             } else {
@@ -137,14 +136,16 @@ public class ButtonsFragment extends Fragment {
     }
 
     public void handleSwitch () {
-        if(!prendida){
+        if(!prendida && !parpadeando){
             if (!checkParpadeo.isChecked()){
+                Log.d("Linterna", "ON");
                 prenderLinterna();
-            } else{
-                parpadeo = true;
-                TimerTask Switch= new TimerTask() {
+            } else {
+                Log.d("Linterna", "ON SWITCH");
+                TimerTask Switch = new TimerTask() {
                     @Override
                     public void run() {
+                        parpadeando = true;
                         if(prendida) {
                             apagarLinterna();
                         } else {
@@ -152,17 +153,22 @@ public class ButtonsFragment extends Fragment {
                         }
                     }
                 };
-                timer.schedule(Switch,0,1000);
+                timer.schedule(Switch,0,500);
             }
         }
         else {
-            if (parpadeo){
-                parpadeo = false;
+            if (!checkParpadeo.isChecked() && !parpadeando){
                 apagarLinterna();
+                Log.d("Linterna", "OFF");
             }
             else {
+                apagarLinterna();
                 timer.cancel();
-                timer = new Timer();
+                if (!prendida){
+                    timer = new Timer();
+                }
+                parpadeando = false;
+                Log.d("Linterna", "OFF SWITCH");
             }
         }
         }
@@ -174,7 +180,7 @@ public class ButtonsFragment extends Fragment {
                 imgLampara.setImageResource(R.drawable.lighton);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
-            } prendida=true;
+            } prendida = true;
         }
 
         public void apagarLinterna () {
@@ -185,7 +191,7 @@ public class ButtonsFragment extends Fragment {
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
-            prendida=false;
+            prendida = false;
         }
 
         public void alert() {
