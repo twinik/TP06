@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,6 +62,8 @@ public class ButtonsFragment extends Fragment {
         parpadeando = false;
         timer=new Timer();
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -208,5 +211,7 @@ public class ButtonsFragment extends Fragment {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
+
+
     }
 

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.tobiaswinik.tp06.fragments.ButtonsFragment;
 import com.tobiaswinik.tp06.fragments.SeteosFragment;
@@ -17,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
     ButtonsFragment fragmentButtons;
     SeteosFragment fragmentSeteos;
     SharedPreferences preferences;
+
+    @Override
+    public  boolean onCreateOptionsMenu(Menu menu)  {
+        getMenuInflater().inflate(R.menu.main_menu,  menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
