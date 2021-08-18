@@ -1,5 +1,6 @@
 package com.tobiaswinik.tp06;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.tobiaswinik.tp06.fragments.ButtonsFragment;
 import com.tobiaswinik.tp06.fragments.SeteosFragment;
@@ -73,5 +76,24 @@ public class MainActivity extends AppCompatActivity {
     }
     public void irAFragmentSeteos(){
         reemplazarFragment(fragmentSeteos, false);
+    }
+
+    @Override
+    public  boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        boolean blnReturn = true;
+        String strTitle;
+        strTitle = item.getTitle().toString();
+        switch (item.getItemId()) {
+            case R.id.action_linterna:
+                irAFragmentButtons();
+                break;
+            case R.id.action_configuracion:
+                irAFragmentSeteos();
+                break;
+            default:
+                blnReturn = false;
+                break;
+        }
+        return blnReturn;
     }
 }
