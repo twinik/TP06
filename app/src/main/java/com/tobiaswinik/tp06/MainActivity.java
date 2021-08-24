@@ -123,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
     public void activarMusica(){
         player.start();
     }
-    public void desactivarMusica(){
-        player.stop();
-    }
 
     public void onPause() {
         super.onPause();
