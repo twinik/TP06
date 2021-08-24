@@ -54,6 +54,7 @@ public class ButtonsFragment extends Fragment {
     boolean compatible, prendida, btnState, parpadeando;
     CountDownTimer contador;
     Timer timer;
+    MainActivity mainAct;
 
     public ButtonsFragment() {
         compatible = false;
@@ -61,6 +62,7 @@ public class ButtonsFragment extends Fragment {
         btnState = false;
         parpadeando = false;
         timer=new Timer();
+        mainAct = (MainActivity) getActivity();
     }
 
 
@@ -88,7 +90,7 @@ public class ButtonsFragment extends Fragment {
             compatible = true;
         }
         SetearListeners();
-
+        actividadContenedora.activarMusica();
         return layoutRoot;
     }
 

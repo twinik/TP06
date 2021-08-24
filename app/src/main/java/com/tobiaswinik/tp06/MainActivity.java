@@ -8,7 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     ButtonsFragment fragmentButtons;
     SeteosFragment fragmentSeteos;
     SharedPreferences preferences;
-
+    BackgroundSound mBackgroundSound ;
+    MediaPlayer player;
     @Override
     public  boolean onCreateOptionsMenu(Menu menu)  {
         getMenuInflater().inflate(R.menu.main_menu,  menu);
@@ -34,13 +38,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         preferences = getSharedPreferences("telefono", Context.MODE_PRIVATE);
         CrearFragments();
-
         reemplazarFragment(fragmentButtons, false);
     }
 
     private void CrearFragments() {
         fragmentButtons = new ButtonsFragment();
         fragmentSeteos = new SeteosFragment();
+        mBackgroundSound= new BackgroundSound();
+        player = MediaPlayer.create(MainActivity.this, R.raw.backmusic);
+        player.setLooping(true); // Set looping
+        player.setVolume(2.0f, 2.0f);
+
     }
 
     public void reemplazarFragment(Fragment fragmento){
@@ -59,6 +67,22 @@ public class MainActivity extends AppCompatActivity {
         }
         transaction.commit();
     }
+
+    public class BackgroundSound extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            MediaPlayer player = MediaPlayer.create(MainActivity.this, R.raw.backmusic);
+            player.setLooping(true); // Set looping
+            player.setVolume(2.0f, 2.0f);
+            player.start();
+
+            return null;
+        }
+
+    }
+
+
 
     public void guardarTelefono(String numero) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -95,5 +119,21 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return blnReturn;
+    }
+    public void activarMusica(){
+        player.start();
+    }
+    public void desactivarMusica(){
+        player.stop();
+    }
+
+    public void onPause() {
+        super.onPause();
+        player.pause();
+    }
+
+    public void onResume() {
+        super.onResume();
+        player.start();
     }
 }
