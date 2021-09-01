@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.tobiaswinik.tp06.MainActivity;
 import com.tobiaswinik.tp06.R;
@@ -23,6 +24,7 @@ public class SeteosFragment extends Fragment {
     View layoutRoot;
     EditText edtTelefono;
     Button btnGuardar;
+    VideoView vView;
 
     public SeteosFragment() {
         // Required empty public constructor
@@ -37,12 +39,20 @@ public class SeteosFragment extends Fragment {
         }
         ObtenerReferencias();
         SetearListeners();
+        ActivarVideo();
         return layoutRoot;
+    }
+
+    private void ActivarVideo() {
+        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.videonashe;
+        vView.setVideoURI(Uri.parse(path));
+        vView.start();
     }
 
     public void ObtenerReferencias(){
         edtTelefono = (EditText) layoutRoot.findViewById(R.id.edtTelefono);
         btnGuardar = (Button) layoutRoot.findViewById(R.id.btnGuardar);
+        vView = (VideoView) layoutRoot.findViewById(R.id.videoView);
     }
 
     public void SetearListeners() {
